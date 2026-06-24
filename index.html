@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Два пончика & Кофе</title>
+    
+    <!-- Подключение шрифта Inter (наиболее близкая и качественная альтернатива системному шрифту Apple - San Francisco) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Премиальная кофейная палитра Apple-style */
+        :root {
+            --bg-main: #FBF9F6;         /* Идеально чистый кремовый оттенок (вместо белого) */
+            --bg-secondary: #F2EFEA;    /* Чуть более плотный кремовый для контраста */
+            --text-dark: #2A1C17;       /* Глубокий кофейный (вместо черного) */
+            --text-muted: #82726B;      /* Мягкий серо-коричневый для второстепенного текста */
+            --accent: #A6623D;          /* Приглушенный карамельно-терракотовый */
+            --glass-bg: rgba(251, 249, 246, 0.75);
+            --glass-border: rgba(42, 28, 23, 0.05);
+            --radius-large: 24px;       /* Мягкие скругления Apple */
+            --radius-btn: 980px;        /* Форма таблетки для кнопок */
+            --shadow-subtle: 0 10px 40px rgba(42, 28, 23, 0.06);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Плавная кривая Безье как в iOS */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased; /* Рендеринг шрифтов под macOS/iOS */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1040px; /* Более узкий и аккуратный контейнер */
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Навигация (Glassmorphism) */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 16px 0;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            opacity: 0.8;
+            transition: var(--transition);
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Главный экран (Hero) */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 100px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 21px;
+            color: var(--text-muted);
+            letter-spacing: -0.015em;
+            max-width: 600px;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--text-dark);
+            color: var(--bg-main);
+            padding: 16px 32px;
+            font-size: 17px;
+            font-weight: 500;
+            border-radius: var(--radius-btn);
+            transition: var(--transition);
+            letter-spacing: -0.02em;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            background-color: #402E27;
+            box-shadow: 0 8px 24px rgba(42, 28, 23, 0.2);
+        }
+
+        .hero-image {
+            margin-top: 60px;
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            border-radius: var(--radius-large);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.01); /* Убирает белые полоски на краях */
+        }
+
+        /* Общие стили секций */
+        section {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 60px;
+        }
+
+        /* О компании */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+
+        .about-text p {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .about-image {
+            border-radius: var(--radius-large);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            aspect-ratio: 4/5;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Меню (Ровно 3 позиции) */
+        .menu-section {
+            background-color: var(--bg-secondary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .menu-card {
+            background: var(--bg-main);
+            border-radius: var(--radius-large);
+            padding: 24px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .menu-image {
+            width: 100%;
+            height: 240px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #EAE5DE;
+        }
+
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .menu-card:hover .menu-image img {
+            transform: scale(1.05);
+        }
+
+        .menu-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .menu-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .menu-card p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .menu-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 16px;
+        }
+
+        .price {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            background: rgba(42, 28, 23, 0.05);
+            color: var(--text-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 300;
+            transition: var(--transition);
+        }
+
+        .menu-card:hover .add-btn {
+            background: var(--text-dark);
+            color: var(--bg-main);
+        }
+
+        /* Контакты */
+        .contact-card {
+            background: var(--bg-main);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-subtle);
+            overflow: hidden;
+            display: flex;
+        }
+
+        .contact-info {
+            padding: 60px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-info h3 {
+            font-size: 28px;
+            margin-bottom: 32px;
+            letter-spacing: -0.02em;
+        }
+
+        .info-block {
+            margin-bottom: 24px;
+        }
+
+        .info-block span {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .info-block p {
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .map-area {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800') center/cover;
+            position: relative;
+        }
+
+        /* Футер */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        footer p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 900px) {
+            .about-grid, .contact-card {
+                flex-direction: column;
+                display: flex;
+            }
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .map-area {
+                min-height: 300px;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 48px; }
+            .hero p { font-size: 18px; }
+            .nav-links { display: none; } /* В идеале здесь нужен бургер-меню */
+            .section-title { font-size: 32px; }
+            .contact-info { padding: 40px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                Два пончика 
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#about">История</a></li>
+                    <li><a href="#menu">Меню</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Главный экран -->
+        <section id="home" class="hero container">
+            <h1>Идеальная пара.<br><span>Только вкус и ничего лишнего.</span></h1>
+            <p>Свежесваренный спешелти кофе и горячие, тающие во рту пончики ручной работы. Утро, которое хочется повторить.</p>
+            <a href="#menu" class="btn">Посмотреть меню</a>
+            
+            <div class="hero-image">
+                <!-- Минималистичное изображение кофе и выпечки в светлых тонах -->
+                <img src="https://images.unsplash.com/photo-1495474472201-340199f5adce?auto=format&fit=crop&q=80&w=1600" alt="Спешелти кофе">
+            </div>
+        </section>
+
+        <!-- О компании -->
+        <section id="about" class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Счастье кроется в мелочах.</h2>
+                    <p>Мы не просто готовим кофе и печем пончики. Мы создаем архитектуру вашего утра. Каждое зерно проходит строгий отбор, а тесто для пончиков замешивается ночью, чтобы достичь идеальной воздушной текстуры к моменту открытия.</p>
+                    <p>Мы убрали всё лишнее, оставив только безупречное качество ингредиентов и эстетику формы. Внимание к деталям — это то, что отличает хороший кофе от выдающегося.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&q=80&w=800" alt="Процесс заваривания">
+                </div>
+            </div>
+        </section>
+
+        <!-- Меню (Ровно 3 позиции) -->
+        <section id="menu" class="menu-section">
+            <div class="container">
+                <h2 class="section-title">Фирменные напитки</h2>
+                <div class="menu-grid">
+                    
+                    <!-- Позиция 1 -->
+                    <div class="menu-card">
+                        <div class="menu-image">
+                            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&q=80&w=600" alt="Карамельный Латте">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Карамельный Латте</h3>
+                            <p>Нежный эспрессо, шелковистое взбитое молоко и наша домашняя карамель с легкой нотой морской соли.</p>
+                            <div class="menu-bottom">
+                                <span class="price">320 ₽</span>
+                                <div class="add-btn">+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Позиция 2 -->
+                    <div class="menu-card">
+                        <div class="menu-image">
+                            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=600" alt="Фирменный пончик">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Фирменный пончик</h3>
+                            <p>Безупречная классика. Невесомое тесто под тончайшим слоем хрустящей ванильной глазури.</p>
+                            <div class="menu-bottom">
+                                <span class="price">150 ₽</span>
+                                <div class="add-btn">+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Позиция 3 -->
+                    <div class="menu-card">
+                        <div class="menu-image">
+                            <img src="https://images.unsplash.com/photo-1612240498936-65f51013a526?auto=format&fit=crop&q=80&w=600" alt="Фисташковый пончик">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Фисташковый экстаз</h3>
+                            <p>Щедрая начинка из натурального заварного крема с ярким вкусом отборной сицилийской фисташки.</p>
+                            <div class="menu-bottom">
+                                <span class="price">210 ₽</span>
+                                <div class="add-btn">+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact" class="container">
+            <div class="contact-card">
+                <div class="contact-info">
+                    <h3>Ждем вас</h3>
+                    
+                    <div class="info-block">
+                        <span>Локация</span>
+                        <p>ул. Кофейная, д. 42<br>Центральный район</p>
+                    </div>
+                    
+                    <div class="info-block">
+                        <span>Часы работы</span>
+                        <p>Пн-Пт: 08:00 – 21:00<br>Сб-Вс: 09:00 – 22:00</p>
+                    </div>
+
+                    <div class="info-block">
+                        <span>Связь</span>
+                        <p>+7 (999) 123-45-67</p>
+                    </div>
+                </div>
+                <div class="map-area"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Два пончика & Кофе. Все права защищены.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
